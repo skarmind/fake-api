@@ -1,0 +1,4853 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "it-eis-personal-account-backend",
+    "description": "Backenf for Eis Personal Account Service",
+    "version": "1.0.0"
+  },
+  "basePath": "/api/v1",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/healthcheck": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.common.healthcheck",
+        "summary": "Проверка работы сервиса",
+        "responses": {
+          "200": {
+            "description": "Сервис работает в штатном режиме",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.auth.login",
+        "summary": "Логин",
+        "parameters": [
+          {
+            "$ref": "#/parameters/RedirectUriParam"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Редирект на сервис авторизации"
+          }
+        }
+      }
+    },
+    "/auth/callback": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.auth.auth_callback",
+        "summary": "Логин",
+        "responses": {
+          "302": {
+            "description": "callback после авторизации для получения токена"
+          },
+          "400": {
+            "description": "Ошибка при получении токена",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.auth.logout",
+        "summary": "Выход из сервиса",
+        "responses": {
+          "302": {
+            "description": "Редирект на страницу авторизации"
+          }
+        }
+      }
+    },
+    "/auth/user": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.auth.get_user",
+        "summary": "Получить информацию о пользователе",
+        "responses": {
+          "200": {
+            "description": "Информация о пользователе из токена",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.personal.me",
+        "summary": "Получить информацию о сотруднике",
+        "parameters": [
+          {
+            "$ref": "#/parameters/AvatarKeyQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация о сотруднике",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me/personal": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.personal.me_edit_personal",
+        "summary": "Редактировать личные данные",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MePersonal"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация о сотруднике",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me/passport": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.personal.me_edit_passport",
+        "summary": "Редактировать пасспортные данные",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/MeChildren"
+          },
+          {
+            "$ref": "#/parameters/AttachmentParam"
+          },
+          {
+            "$ref": "#/parameters/PassportFirstNameParam"
+          },
+          {
+            "$ref": "#/parameters/PassportLastNameParam"
+          },
+          {
+            "$ref": "#/parameters/PassportPatronymicNameParam"
+          },
+          {
+            "$ref": "#/parameters/ItnParam"
+          },
+          {
+            "$ref": "#/parameters/PassportTypeParam"
+          },
+          {
+            "$ref": "#/parameters/PassportIDParam"
+          },
+          {
+            "$ref": "#/parameters/PassportSeriesParam"
+          },
+          {
+            "$ref": "#/parameters/PassportDateParam"
+          },
+          {
+            "$ref": "#/parameters/PassportIssuedByParam"
+          },
+          {
+            "$ref": "#/parameters/RegistrationAddressParam"
+          },
+          {
+            "$ref": "#/parameters/PassportDivisionCodeParam"
+          },
+          {
+            "$ref": "#/parameters/CommentParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация по сессии",
+            "schema": {
+              "$ref": "#/definitions/SessionResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me/children": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.personal.me_edit_children",
+        "summary": "Редактировать информацию о детях",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/MeChildren"
+          },
+          {
+            "$ref": "#/parameters/AttachmentParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация по сессии",
+            "schema": {
+              "$ref": "#/definitions/SessionResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me/work": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.personal.me_edit_work",
+        "summary": "Редактировать рабочие данные",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MeWork"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация по сессии",
+            "schema": {
+              "$ref": "#/definitions/SessionResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me/contacts": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.personal.me_edit_contacts",
+        "summary": "Редактировать контакты",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MeContacts"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация о сотруднике",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me/evaluation": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.personal.me_evaluation",
+        "summary": "Сообщить о желании развиваться",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/CommentParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Сообщение поставлено в очередь",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/tasks": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.tasks.get_user_tasks",
+        "summary": "Получить список задач созданных пользователем",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "task_type",
+            "type": "string",
+            "enum": [
+              "customer_service",
+              "absence"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список тасок",
+            "schema": {
+              "$ref": "#/definitions/UserTasksResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/recommendations": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.recommendation.get_recommendations",
+        "summary": "Получить список рекомендаций",
+        "responses": {
+          "200": {
+            "description": "Список рекомендаций",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.recommendation.post_recommendation",
+        "summary": "Добавить рекомендацию",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ReferrerFioParam"
+          },
+          {
+            "$ref": "#/parameters/PositionParam"
+          },
+          {
+            "$ref": "#/parameters/FioParam"
+          },
+          {
+            "$ref": "#/parameters/AboutParam"
+          },
+          {
+            "$ref": "#/parameters/LinkToResumeParam"
+          },
+          {
+            "$ref": "#/parameters/CanReferParam"
+          },
+          {
+            "$ref": "#/parameters/CityParam"
+          },
+          {
+            "$ref": "#/parameters/ContactsParam"
+          },
+          {
+            "$ref": "#/parameters/CreateDateParam"
+          },
+          {
+            "$ref": "#/parameters/WhereFindParam"
+          },
+          {
+            "$ref": "#/parameters/RecommendationTypeParam"
+          },
+          {
+            "$ref": "#/parameters/JobSearchParam"
+          },
+          {
+            "$ref": "#/parameters/HrUidParam"
+          },
+          {
+            "$ref": "#/parameters/ManagerHrUidParam"
+          },
+          {
+            "$ref": "#/parameters/ManagerEmailParam"
+          },
+          {
+            "$ref": "#/parameters/ManagerFioParam"
+          },
+          {
+            "$ref": "#/parameters/AttachmentParam"
+          },
+          {
+            "$ref": "#/parameters/LocationParam"
+          },
+          {
+            "$ref": "#/parameters/ConsentOnPersonalDataReceivedConfirmParam"
+          },
+          {
+            "$ref": "#/parameters/ConsentWithRecommendationConditionsParam"
+          },
+          {
+            "$ref": "#/parameters/InfluencedCandidateDecisionParam"
+          },
+          {
+            "$ref": "#/parameters/FoundLinkedinParam"
+          },
+          {
+            "$ref": "#/parameters/WaitFeedbackParam"
+          },
+          {
+            "$ref": "#/parameters/DepartmentID"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Рекомендация успешно добавлена",
+            "schema": {
+              "$ref": "#/definitions/RecommendationResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          }
+        }
+      }
+    },
+    "/recommendations/{recommendation_id}": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.recommendation.get_recommendation",
+        "summary": "Получить рекомендацию",
+        "parameters": [
+          {
+            "$ref": "#/parameters/RecommendationIdParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Рекомендация",
+            "schema": {
+              "$ref": "#/definitions/RecommendationResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          },
+          "404": {
+            "description": "Рекомендация не найдена",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "it_eis_personal_account_backend.views.recommendation.update_recommendation",
+        "summary": "Обновить рекомендацию",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/RecommendationIdParam"
+          },
+          {
+            "$ref": "#/parameters/ReferrerFioParam"
+          },
+          {
+            "$ref": "#/parameters/PositionParam"
+          },
+          {
+            "$ref": "#/parameters/FioParam"
+          },
+          {
+            "$ref": "#/parameters/AboutParam"
+          },
+          {
+            "$ref": "#/parameters/LinkToResumeParam"
+          },
+          {
+            "$ref": "#/parameters/CanReferParam"
+          },
+          {
+            "$ref": "#/parameters/CityParam"
+          },
+          {
+            "$ref": "#/parameters/ContactsParam"
+          },
+          {
+            "$ref": "#/parameters/CreateDateParam"
+          },
+          {
+            "$ref": "#/parameters/WhereFindParam"
+          },
+          {
+            "$ref": "#/parameters/RecommendationTypeParam"
+          },
+          {
+            "$ref": "#/parameters/JobSearchParam"
+          },
+          {
+            "$ref": "#/parameters/HrUidParam"
+          },
+          {
+            "$ref": "#/parameters/ManagerHrUidParam"
+          },
+          {
+            "$ref": "#/parameters/ManagerEmailParam"
+          },
+          {
+            "$ref": "#/parameters/ManagerFioParam"
+          },
+          {
+            "$ref": "#/parameters/AttachmentParam"
+          },
+          {
+            "$ref": "#/parameters/LocationParam"
+          },
+          {
+            "$ref": "#/parameters/ConsentOnPersonalDataReceivedConfirmParam"
+          },
+          {
+            "$ref": "#/parameters/ConsentWithRecommendationConditionsParam"
+          },
+          {
+            "$ref": "#/parameters/InfluencedCandidateDecisionParam"
+          },
+          {
+            "$ref": "#/parameters/FoundLinkedinParam"
+          },
+          {
+            "$ref": "#/parameters/WaitFeedbackParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Рекомендация обновлена",
+            "schema": {
+              "$ref": "#/definitions/RecommendationResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          },
+          "404": {
+            "description": "Рекомендация не найдена",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          }
+        }
+      }
+    },
+    "/recommendations/{recommendation_id}/comment": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.recommendation.post_comment",
+        "summary": "Добавить комментарий к рекомендации",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recommendation_id",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PostComment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Комментарий успешно добавлен",
+            "schema": {
+              "$ref": "#/definitions/CommentResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          },
+          "404": {
+            "description": "Рекомендация не найдена",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          }
+        }
+      }
+    },
+    "/manager_recommendations": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.recommendation.get_manager_recommendations",
+        "summary": "Получить список рекомендаций для менеджера",
+        "responses": {
+          "200": {
+            "description": "Список рекомендаций",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/RecommendationsError"
+            }
+          }
+        }
+      }
+    },
+    "/attc/session/{session_uuid}": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.common.get_attc_session",
+        "summary": "Получить информацию по сессии в ATTC",
+        "description": "Используется для отображения на фронте задачи созданной через ATTC (Сервисная служба, Компенсация, Отсутствия).",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_uuid",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация по сессии",
+            "schema": {
+              "$ref": "#/definitions/SessionResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сессия не найдена",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/absence_calendars": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.absence.get_absences",
+        "summary": "Получить список отпусков",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "employee_uid",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "$ref": "#/parameters/StartDateTimeQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список отпусков",
+            "schema": {
+              "$ref": "#/definitions/AbsencesListResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/absence": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.absence.create_absence",
+        "summary": "Постановка задачи на отсутствие",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/AttachmentParam"
+          },
+          {
+            "$ref": "#/parameters/StartOnParam"
+          },
+          {
+            "$ref": "#/parameters/SetStatusDueOnParam"
+          },
+          {
+            "$ref": "#/parameters/GidOfStudioParam"
+          },
+          {
+            "$ref": "#/parameters/DueOnRequiredParam"
+          },
+          {
+            "$ref": "#/parameters/WorkOutParam"
+          },
+          {
+            "$ref": "#/parameters/AbsenceTypeParam"
+          },
+          {
+            "$ref": "#/parameters/FollowersParam"
+          },
+          {
+            "$ref": "#/parameters/EdoTextParam"
+          },
+          {
+            "$ref": "#/parameters/IsNewParam"
+          },
+          {
+            "$ref": "#/parameters/AbsenceIdParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация по сессии",
+            "schema": {
+              "$ref": "#/definitions/SessionResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сессия не найдена",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/customer_service": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.customer_service.create_task",
+        "summary": "Постановка задачи в сервисную службу",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/AttachmentParam"
+          },
+          {
+            "$ref": "#/parameters/StartOnParam"
+          },
+          {
+            "$ref": "#/parameters/DueOnParam"
+          },
+          {
+            "$ref": "#/parameters/CustomerServiceTypeParam"
+          },
+          {
+            "$ref": "#/parameters/ProgrammingProject"
+          },
+          {
+            "$ref": "#/parameters/OwnTaskParam"
+          },
+          {
+            "$ref": "#/parameters/EmployeeNameParam"
+          },
+          {
+            "$ref": "#/parameters/EmployeeEmailParam"
+          },
+          {
+            "$ref": "#/parameters/EmployeeADloginParam"
+          },
+          {
+            "$ref": "#/parameters/EmployeeCityParam"
+          },
+          {
+            "$ref": "#/parameters/EmployeeOrganizationParam"
+          },
+          {
+            "$ref": "#/parameters/EmployeeDepartmentParam"
+          },
+          {
+            "$ref": "#/parameters/EmployeeProjectParam"
+          },
+          {
+            "$ref": "#/parameters/EmployeeManagerNameParam"
+          },
+          {
+            "$ref": "#/parameters/EmployeeManagerEmailParam"
+          },
+          {
+            "$ref": "#/parameters/EmployeeAddManagerParam"
+          },
+          {
+            "$ref": "#/parameters/UserTaskNameParam"
+          },
+          {
+            "$ref": "#/parameters/UserTextParam"
+          },
+          {
+            "$ref": "#/parameters/GidOfOrganizationParam"
+          },
+          {
+            "$ref": "#/parameters/GidOfStudioParam"
+          },
+          {
+            "$ref": "#/parameters/EventsDateParam"
+          },
+          {
+            "$ref": "#/parameters/DestinationCountryParam"
+          },
+          {
+            "$ref": "#/parameters/DestinationCityParam"
+          },
+          {
+            "$ref": "#/parameters/DepartureCountryParam"
+          },
+          {
+            "$ref": "#/parameters/DepartureCityParam"
+          },
+          {
+            "$ref": "#/parameters/NecessaryEquipment"
+          },
+          {
+            "$ref": "#/parameters/EquipmentDeliverAddress"
+          },
+          {
+            "$ref": "#/parameters/DurationWork"
+          },
+          {
+            "$ref": "#/parameters/IsTemporary"
+          },
+          {
+            "$ref": "#/parameters/MoreInfoParam"
+          },
+          {
+            "$ref": "#/parameters/DemandParam"
+          },
+          {
+            "$ref": "#/parameters/TargetParam"
+          },
+          {
+            "$ref": "#/parameters/VariantParam"
+          },
+          {
+            "$ref": "#/parameters/IdeaDescriptionParam"
+          },
+          {
+            "$ref": "#/parameters/ResultParam"
+          },
+          {
+            "$ref": "#/parameters/ImplementationMethodParam"
+          },
+          {
+            "$ref": "#/parameters/BeneficiaryParam"
+          },
+          {
+            "$ref": "#/parameters/ExampleParam"
+          },
+          {
+            "$ref": "#/parameters/WorkFormatParam"
+          },
+          {
+            "$ref": "#/parameters/PriorityParam"
+          },
+          {
+            "$ref": "#/parameters/PurchaseCityParam"
+          },
+          {
+            "$ref": "#/parameters/PurchaseDateParam"
+          },
+          {
+            "$ref": "#/parameters/ContactPhoneParam"
+          },
+          {
+            "$ref": "#/parameters/Currency"
+          },
+          {
+            "$ref": "#/parameters/EntityParam"
+          },
+          {
+            "$ref": "#/parameters/OfficeParam"
+          },
+          {
+            "$ref": "#/parameters/ContractNumberParam"
+          },
+          {
+            "$ref": "#/parameters/ContractDateParam"
+          },
+          {
+            "$ref": "#/parameters/AmountParam"
+          },
+          {
+            "$ref": "#/parameters/PaymentOrderParam"
+          },
+          {
+            "$ref": "#/parameters/ContractSubjectParam"
+          },
+          {
+            "$ref": "#/parameters/ContractFormatParam"
+          },
+          {
+            "$ref": "#/parameters/DeliveryOrderParam"
+          },
+          {
+            "$ref": "#/parameters/DeviceName"
+          },
+          {
+            "$ref": "#/parameters/SerialNumber"
+          },
+          {
+            "$ref": "#/parameters/InventoryNumber"
+          },
+          {
+            "$ref": "#/parameters/Topic"
+          },
+          {
+            "$ref": "#/parameters/Date"
+          },
+          {
+            "$ref": "#/parameters/Time"
+          },
+          {
+            "$ref": "#/parameters/UsefulFor"
+          },
+          {
+            "$ref": "#/parameters/DurationText"
+          },
+          {
+            "$ref": "#/parameters/TechInfo"
+          },
+          {
+            "$ref": "#/parameters/FollowersParam"
+          },
+          {
+            "$ref": "#/parameters/PlaceParam"
+          },
+          {
+            "$ref": "#/parameters/SpeakersParam"
+          },
+          {
+            "$ref": "#/parameters/EmployeePositionParam"
+          },
+          {
+            "$ref": "#/parameters/WhatNowTextParam"
+          },
+          {
+            "$ref": "#/parameters/ExpectedResultTextParam"
+          },
+          {
+            "$ref": "#/parameters/UrgencyTextParam"
+          },
+          {
+            "$ref": "#/parameters/PurposeParam"
+          },
+          {
+            "$ref": "#/parameters/PeriodParam"
+          },
+          {
+            "$ref": "#/parameters/RepaymentOptionParam"
+          },
+          {
+            "$ref": "#/parameters/CommentParam"
+          },
+          {
+            "$ref": "#/parameters/ReasonForChangeTextParam"
+          },
+          {
+            "$ref": "#/parameters/PreferredWorkplaceTextParam"
+          },
+          {
+            "$ref": "#/parameters/AdditionalInformationTextParam"
+          },
+          {
+            "$ref": "#/parameters/DeliveryPeriodParam"
+          },
+          {
+            "$ref": "#/parameters/DestinationParam"
+          },
+          {
+            "$ref": "#/parameters/ContractorContactsParam"
+          },
+          {
+            "$ref": "#/parameters/OfficeGidParam"
+          },
+          {
+            "$ref": "#/parameters/OfficeLabelParam"
+          },
+          {
+            "$ref": "#/parameters/OfficeIdParam"
+          },
+          {
+            "$ref": "#/parameters/WorkFormatIdParam"
+          },
+          {
+            "$ref": "#/parameters/ContractLinkParam"
+          },
+          {
+            "$ref": "#/parameters/ContractSumParam"
+          },
+          {
+            "$ref": "#/parameters/DeliveryOrderCustom"
+          },
+          {
+            "$ref": "#/parameters/SpecificationDate"
+          },
+          {
+            "$ref": "#/parameters/SpecificationNumber"
+          },
+          {
+            "$ref": "#/parameters/ContractAsanaLink"
+          },
+          {
+            "$ref": "#/parameters/DemandDate"
+          },
+          {
+            "$ref": "#/parameters/GDFServiceGidParam"
+          },
+          {
+            "$ref": "#/parameters/ReturnDateParam"
+          },
+          {
+            "$ref": "#/parameters/OneCDBListParam"
+          },
+          {
+            "$ref": "#/parameters/PriorityLanguageParam"
+          },
+          {
+            "$ref": "#/parameters/ResponsibleParam"
+          },
+          {
+            "$ref": "#/parameters/RDPTerminalParam"
+          },
+          {
+            "$ref": "#/parameters/ExternalUserNameParam"
+          },
+          {
+            "$ref": "#/parameters/ExternalUserEmailParam"
+          },
+          {
+            "$ref": "#/parameters/ExternalUserADLoginParam"
+          },
+          {
+            "$ref": "#/parameters/ExternalUserOrganizationParam"
+          },
+          {
+            "$ref": "#/parameters/BeginDateParam"
+          },
+          {
+            "$ref": "#/parameters/EndDateParam"
+          },
+          {
+            "$ref": "#/parameters/LegalEntityIdFormParam"
+          },
+          {
+            "$ref": "#/parameters/StudioIdFormParam"
+          },
+          {
+            "$ref": "#/parameters/OneCTaskTypeGIDParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация по сессии",
+            "schema": {
+              "$ref": "#/definitions/SessionResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сессия не найдена",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/compensation/request": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.compensation.get_compensation_requests",
+        "summary": "Получение запросов компенсаций",
+        "responses": {
+          "200": {
+            "description": "Информация по запросам",
+            "schema": {
+              "$ref": "#/definitions/RequestsResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сессия не найдена",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.compensation.post_compensation_request",
+        "summary": "Постановка запроса компенсации",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/AttachmentParam"
+          },
+          {
+            "$ref": "#/parameters/BeginDateParam"
+          },
+          {
+            "$ref": "#/parameters/EndDateParam"
+          },
+          {
+            "$ref": "#/parameters/PurchaseDateParam"
+          },
+          {
+            "$ref": "#/parameters/PurchaseCityParam"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionCountryParam"
+          },
+          {
+            "$ref": "#/parameters/CostParam"
+          },
+          {
+            "$ref": "#/parameters/Currency"
+          },
+          {
+            "$ref": "#/parameters/CompensationTypeParam"
+          },
+          {
+            "$ref": "#/parameters/UserTextParam"
+          },
+          {
+            "$ref": "#/parameters/HigherLimitParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация по запросу",
+            "schema": {
+              "$ref": "#/definitions/RequestResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сессия не найдена",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/compensation/request/{request_id}/attachment": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.compensation.post_compensation_attachments",
+        "summary": "Добавить файл к компенсации",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/AttachmentParam"
+          },
+          {
+            "in": "path",
+            "name": "request_id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Аттачмент компенсации",
+            "schema": {
+              "$ref": "#/definitions/AttachmentsResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сессия не найдена",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/eis/employee": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.eis.get_eis_employee",
+        "summary": "Получить данные сотрудника из ИС",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fio",
+            "type": "string",
+            "required": false,
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "employee_data",
+            "type": "string",
+            "required": false,
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string",
+            "required": false,
+            "minLength": 1
+          },
+          {
+            "in": "query",
+            "name": "studio_id",
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "required": false,
+            "minLength": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные сотрудника",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сотрудник не найден",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/eis/new_employee": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.eis.get_new_eis_employee",
+        "summary": "Получить новых сотрудников из ИС",
+        "parameters": [
+          {
+            "$ref": "#/parameters/StartDateQueryParam"
+          },
+          {
+            "$ref": "#/parameters/EndDateQueryParam"
+          },
+          {
+            "$ref": "#/parameters/StudioIdQueryParam"
+          },
+          {
+            "$ref": "#/parameters/PageQueryParam"
+          },
+          {
+            "$ref": "#/parameters/PerPageParam"
+          },
+          {
+            "$ref": "#/parameters/OrderingQueryParam"
+          },
+          {
+            "$ref": "#/parameters/AvatarKeyQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные сотрудника",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сотрудник не найден",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/eis/birthday_employee": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.eis.get_birthday_eis_employee",
+        "summary": "Получить сотрудников из ИС с фильтром по мм-дд дня рождения",
+        "parameters": [
+          {
+            "$ref": "#/parameters/StartDateQueryParam"
+          },
+          {
+            "$ref": "#/parameters/EndDateQueryParam"
+          },
+          {
+            "$ref": "#/parameters/StudioIdQueryParam"
+          },
+          {
+            "$ref": "#/parameters/PageQueryParam"
+          },
+          {
+            "$ref": "#/parameters/PerPageParam"
+          },
+          {
+            "$ref": "#/parameters/OrderingQueryParam"
+          },
+          {
+            "$ref": "#/parameters/AvatarKeyQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные сотрудника",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сотрудник не найден",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/eis/anniversary_employee": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.eis.get_anniversary_employee",
+        "summary": "Получить сотрудников из ИС с годовщиной работы в компании",
+        "parameters": [
+          {
+            "$ref": "#/parameters/StartDateQueryParam"
+          },
+          {
+            "$ref": "#/parameters/EndDateQueryParam"
+          },
+          {
+            "$ref": "#/parameters/StudioIdQueryParam"
+          },
+          {
+            "$ref": "#/parameters/PageQueryParam"
+          },
+          {
+            "$ref": "#/parameters/PerPageParam"
+          },
+          {
+            "$ref": "#/parameters/OrderingQueryParam"
+          },
+          {
+            "$ref": "#/parameters/AvatarKeyQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные сотрудника",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сотрудник не найден",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/idm/employees": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.idm.get_employee_list",
+        "parameters": [
+          {
+            "$ref": "#/parameters/PageQueryParam"
+          },
+          {
+            "$ref": "#/parameters/PerPageParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные сотрудника",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сотрудник не найден",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/idm/employee/{employee_id}": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.idm.get_employee",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EmployeeIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные сотрудника",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сотрудник не найден",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/eis/{catalog}": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.eis.get_eis_catalog",
+        "summary": "Получить справочник из EIS",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "catalog",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список справочников",
+            "schema": {
+              "$ref": "#/definitions/CatalogResponse"
+            }
+          }
+        }
+      }
+    },
+    "/edo/oauth/authorize": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_authorization",
+        "summary": "Запрос на авторизацию в сервисе ЭДО",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EdoRedirectUriParam"
+          },
+          {
+            "$ref": "#/parameters/HrUidQueryParam"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Запрос на авторизацию в сервисе ЭДО"
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/edo/oauth/token": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_token",
+        "summary": "Получение токена авторизации по коду в сервисе ЭДО",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EdoTokenRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получен токен авторизации по коду",
+            "schema": {
+              "$ref": "#/definitions/EdoTokenResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/edo/oauth/refresh": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_refresh_token",
+        "summary": "Обновление токена доступа к ЭДО",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EdoRefreshRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Токен доступа к Крипто Про",
+            "schema": {
+              "$ref": "#/definitions/EdoTokenResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/edo/employee/{employee_id}": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_get_employee",
+        "summary": "Информация о сотруднике в ЭДО",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EdoEmployeeIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация о сотруднике в ЭДО",
+            "schema": {
+              "$ref": "#/definitions/EdoGetEmployeeResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/edo/doc_type": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_get_doc_types",
+        "summary": "Получить список типов документов В ЭДО",
+        "parameters": [
+          {
+            "$ref": "#/parameters/PageParam"
+          },
+          {
+            "$ref": "#/parameters/PerPageParam"
+          },
+          {
+            "$ref": "#/parameters/OrderingParam"
+          },
+          {
+            "$ref": "#/parameters/EdoDueOnParam"
+          },
+          {
+            "$ref": "#/parameters/EdoNameParam"
+          },
+          {
+            "$ref": "#/parameters/EdoDeletedParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список типов документов в ЭДО",
+            "schema": {
+              "$ref": "#/definitions/EdoDocTypesResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/edo/document": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_get_documents",
+        "summary": "Получить список документов пользователя в ЭДО",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EdoDocumentStatusParam"
+          },
+          {
+            "$ref": "#/parameters/EdoDocumentTypeIdParam"
+          },
+          {
+            "$ref": "#/parameters/EdoSignatoryStatusParam"
+          },
+          {
+            "$ref": "#/parameters/EdoSignatoryStatusNotParam"
+          },
+          {
+            "$ref": "#/parameters/PageParam"
+          },
+          {
+            "$ref": "#/parameters/PerPageParam"
+          },
+          {
+            "$ref": "#/parameters/OrderingParam"
+          },
+          {
+            "$ref": "#/parameters/StartDateTimeQueryParam"
+          },
+          {
+            "$ref": "#/parameters/EndDateTimeQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список документов пользователя в ЭДО",
+            "schema": {
+              "$ref": "#/definitions/EdoDocumentsResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_post_documents",
+        "summary": "Загрузка документов в сервис ЭДО",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EdoCreateDocumentsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список загруженных документов",
+            "schema": {
+              "$ref": "#/definitions/EdoCreateDocumentsResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/edo/document/{document_uuid}": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_get_document",
+        "summary": "Получить информацию по документу",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EdoDocumentUuidParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Документ пользователя в ЭДО",
+            "schema": {
+              "$ref": "#/definitions/EdoDocumentResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/edo/document/{document_uuid}/download": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_download_document",
+        "summary": "Скачать документ по идентификатору",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EdoDocumentUuidParam"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Перенаправление для скачивания документа из s3"
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/edo/document/sign": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_sign_documents",
+        "summary": "Подписание документов",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EdoSignDocumentsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Сессия подписания документов и список не подписанных документов",
+            "schema": {
+              "$ref": "#/definitions/EdoSignDocumentsResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/edo/certificate": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_get_certificates",
+        "summary": "Получить список сертификатов пользователя",
+        "responses": {
+          "200": {
+            "description": "Список сертификатов пользователя",
+            "schema": {
+              "$ref": "#/definitions/EdoCertificatesResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/edo/document/{document_uuid}/cancel": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.edo.edo_cancel_document",
+        "summary": "Отменить ЭДО по документу",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EdoDocumentUuidParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ЭДО отменен"
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/generate_document": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.one_c.generate_document",
+        "summary": "Сформировать документ",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/DocumentGenerateTypeParam"
+          },
+          {
+            "$ref": "#/parameters/StartOnParam"
+          },
+          {
+            "$ref": "#/parameters/DueOnParam"
+          },
+          {
+            "$ref": "#/parameters/ForEdoParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Сформированный документ",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Доступ запрещен",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Сотрудник не найден",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/inventory": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.one_c.get_inventory",
+        "summary": "Получить документ по инвентаризации",
+        "responses": {
+          "200": {
+            "description": "Документ по инвентаризации",
+            "schema": {
+              "$ref": "#/definitions/InventoryDocResponse"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.one_c.post_inventory",
+        "summary": "Подтвердить или не согласиться со списком оборудования на руках",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/DocumentNumberParam"
+          },
+          {
+            "$ref": "#/parameters/ConfirmedParam"
+          },
+          {
+            "$ref": "#/parameters/CommentParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ответ записан"
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/access/vpn": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.vpn.grant_vpn_access",
+        "summary": "Запрос доступа к VPN",
+        "responses": {
+          "200": {
+            "description": "Запрос выполнен",
+            "schema": {
+              "$ref": "#/definitions/VPNAccessRequestResponse"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/access/password": {
+      "post": {
+        "operationId": "it_eis_personal_account_backend.views.self_service.change_password",
+        "summary": "Изменение доменного пароля",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChangePasswordRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Запрос выполнен",
+            "schema": {
+              "$ref": "#/definitions/ChangePasswordResponse"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/access/wifi/certificate": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.self_cert.generate_cert",
+        "summary": "Изменение доменного пароля",
+        "parameters": [
+          {
+            "$ref": "#/parameters/CaptchaQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Запрос выполнен",
+            "schema": {
+              "$ref": "#/definitions/GenerateCertResponse"
+            }
+          },
+          "500": {
+            "description": "Ошибка в работе сервиса",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/employee/{employee_uid}/achievements": {
+      "get": {
+        "operationId": "it_eis_personal_account_backend.views.achievements.get_employee_achievements",
+        "summary": "Получить достижения сотрудника",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EmployeeUidPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список достижений сотрудника",
+            "schema": {
+              "$ref": "#/definitions/EmployeeAchievementsResponse"
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      }
+    },
+    "SuccessResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "default": "success"
+        }
+      }
+    },
+    "AbsencesListResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "object",
+          "properties": {
+            "employees": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Employee"
+              }
+            },
+            "absences": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Absence"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Absence": {
+      "type": "object",
+      "properties": {
+        "absence_type": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "employee_uid": {
+          "type": "integer"
+        },
+        "editable": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Employee": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "department": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "department_id": {
+          "type": "integer"
+        },
+        "project_id": {
+          "type": "integer"
+        },
+        "position_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "RecommendationsError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "RecommendationsResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Recommendation"
+          }
+        }
+      }
+    },
+    "RecommendationResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "object",
+          "$ref": "#/definitions/Recommendation"
+        }
+      }
+    },
+    "Recommendation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "position": {
+          "type": "string"
+        },
+        "fio": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "link_to_resume": {
+          "type": "string"
+        },
+        "can_refer": {
+          "type": "boolean"
+        },
+        "city": {
+          "type": "string"
+        },
+        "contacts": {
+          "type": "string"
+        },
+        "create_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "where_find": {
+          "type": "string"
+        },
+        "recommendation_type": {
+          "type": "string",
+          "enum": [
+            "internal",
+            "external",
+            "manager"
+          ]
+        },
+        "job_search": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "referrer": {
+          "$ref": "#/definitions/Referrer"
+        },
+        "task_id": {
+          "type": "string"
+        },
+        "dating_level": {
+          "type": "string"
+        },
+        "group": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "recruiting_status": {
+          "type": "string"
+        },
+        "status_comment": {
+          "type": "string"
+        },
+        "completed": {
+          "type": "boolean"
+        },
+        "recruiter": {
+          "type": "string"
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "last_comment": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "offer_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "valid": {
+          "type": "boolean"
+        },
+        "real_url": {
+          "type": "string"
+        },
+        "bonus": {
+          "type": "integer"
+        },
+        "bonus_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "manager_hr_uid": {
+          "type": "integer"
+        },
+        "manager_email": {
+          "type": "string"
+        },
+        "manager_fio": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "consent_on_personal_data_processing_received_confirm": {
+          "type": "boolean"
+        },
+        "consent_with_recommendation_conditions": {
+          "type": "boolean"
+        },
+        "wait_feedback": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CommentResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/Comment"
+        }
+      }
+    },
+    "Comment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "task_id": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        }
+      }
+    },
+    "Referrer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "hr_uid": {
+          "type": "integer"
+        },
+        "email": {
+          "type": "string"
+        },
+        "fio": {
+          "type": "string"
+        }
+      }
+    },
+    "PostComment": {
+      "type": "object",
+      "required": [
+        "comment"
+      ],
+      "properties": {
+        "comment": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "Session": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "asana_id": {
+          "type": "string"
+        }
+      }
+    },
+    "SessionResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/Session"
+        }
+      }
+    },
+    "CatalogResponse": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "CompensationAttachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CompensationRequest": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "cost": {
+          "type": "integer"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "purchase_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "begin_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "status": {
+          "type": "string"
+        },
+        "user_text": {
+          "type": "string"
+        },
+        "higher_limit": {
+          "type": "boolean"
+        },
+        "attachments": {
+          "$ref": "#/definitions/CompensationAttachments"
+        },
+        "compensations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "uuid": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "calculated_payment": {
+                "type": "integer"
+              },
+              "actual_payment": {
+                "type": "integer"
+              },
+              "calculated_payment_in_currency": {
+                "type": "integer"
+              },
+              "actual_payment_in_currency": {
+                "type": "integer"
+              },
+              "currency": {
+                "type": "string"
+              },
+              "begin_date": {
+                "type": "string",
+                "format": "date"
+              },
+              "end_date": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          }
+        }
+      }
+    },
+    "RequestResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/CompensationRequest"
+        }
+      }
+    },
+    "RequestsResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CompensationRequest"
+          }
+        }
+      }
+    },
+    "AttachmentsResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/CompensationAttachments"
+        }
+      }
+    },
+    "MePersonal": {
+      "type": "object",
+      "required": [
+        "first_name",
+        "last_name",
+        "birthdate",
+        "city_id",
+        "city_name"
+      ],
+      "properties": {
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "patronymic_name": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "birthdate": {
+          "type": "string",
+          "format": "date"
+        },
+        "address": {
+          "type": "string"
+        },
+        "city_id": {
+          "type": "integer"
+        },
+        "city_name": {
+          "type": "string"
+        },
+        "clothing_size": {
+          "type": "string",
+          "x-nullable": true,
+          "enum": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL",
+            "XXXL"
+          ]
+        }
+      }
+    },
+    "MeWork": {
+      "type": "object",
+      "required": [
+        "comment",
+        "direction",
+        "department",
+        "position",
+        "legal_entity",
+        "work_format"
+      ],
+      "properties": {
+        "direction": {
+          "type": "string"
+        },
+        "department": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "position": {
+          "type": "string"
+        },
+        "legal_entity": {
+          "type": "string"
+        },
+        "work_format": {
+          "type": "string"
+        },
+        "office": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "comment": {
+          "type": "string"
+        }
+      }
+    },
+    "MeContacts": {
+      "type": "object",
+      "properties": {
+        "contacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "contact_type": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "EdoTokenRequest": {
+      "type": "object",
+      "properties": {
+        "redirect_uri": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "redirect_uri",
+        "code"
+      ]
+    },
+    "EdoTokenResponse": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string"
+        },
+        "expires_in": {
+          "type": "number"
+        },
+        "refresh_token": {
+          "type": "string"
+        }
+      }
+    },
+    "EdoRefreshRequest": {
+      "type": "object",
+      "properties": {
+        "refresh_token": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "refresh_token"
+      ]
+    },
+    "EdoDocTypesResponse": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/EdoDocTypeResponse"
+      }
+    },
+    "EdoDocTypeResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "due_on": {
+          "type": "number"
+        }
+      }
+    },
+    "EdoCreateDocumentsRequest": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/EdoCreateDocumentRequest"
+      }
+    },
+    "EdoCreateDocumentRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type_id": {
+          "type": "number"
+        },
+        "data": {
+          "type": "string",
+          "format": "base64"
+        },
+        "signatory": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EdoSignatoryRequest"
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "type_id",
+        "data"
+      ]
+    },
+    "EdoCreateDocumentsResponse": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "$ref": "#/definitions/EdoCreateDocumentResponse"
+          }
+        }
+      }
+    },
+    "EdoCreateDocumentResponse": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type_id": {
+          "type": "number"
+        },
+        "is_expired": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string"
+        },
+        "signatory": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EdoSignatoryStatus"
+          }
+        }
+      }
+    },
+    "EdoDocumentsResponse": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/EdoDocumentResponse"
+      }
+    },
+    "EdoDocumentResponse": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "type_id": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string"
+        },
+        "current_signatory": {
+          "$ref": "#/definitions/EdoSignatoryStatus"
+        },
+        "signatory_status": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EdoSignatoryStatus"
+          }
+        }
+      }
+    },
+    "EdoSignatoryStatus": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "hr_uid": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "is_official": {
+          "type": "boolean"
+        },
+        "is_expired": {
+          "type": "boolean"
+        },
+        "expire_date": {
+          "type": "string"
+        }
+      }
+    },
+    "EdoSignatoryRequest": {
+      "type": "object",
+      "properties": {
+        "hr_uid": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "is_official": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "is_official"
+      ]
+    },
+    "EdoSignDocumentsRequest": {
+      "type": "object",
+      "properties": {
+        "document_uuid": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "certificate_id": {
+          "type": "number"
+        },
+        "pin_code": {
+          "type": "string"
+        },
+        "save_pin_code": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "document_uuid",
+        "certificate_id",
+        "save_pin_code"
+      ]
+    },
+    "EdoSignDocumentsResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "object",
+          "properties": {
+            "uuid": {
+              "type": "string"
+            }
+          }
+        },
+        "error": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "error": {
+                "type": "string"
+              },
+              "document_uuid": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "EdoCertificatesResponse": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/EdoCertificateResponse"
+      }
+    },
+    "EdoCertificateResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "is_official": {
+          "type": "boolean"
+        },
+        "pin_code": {
+          "$ref": "#/definitions/EdoPinCodeResponse"
+        }
+      }
+    },
+    "EdoPinCodeResponse": {
+      "type": "object",
+      "properties": {
+        "is_saved": {
+          "type": "boolean"
+        },
+        "saving_date": {
+          "type": "string"
+        },
+        "has_error": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Device": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "serial_number": {
+          "type": "string"
+        },
+        "inventory_number": {
+          "type": "string"
+        },
+        "organization": {
+          "type": "string"
+        }
+      }
+    },
+    "InventoryDocResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "document_number": {
+              "type": "string"
+            },
+            "document_date": {
+              "type": "string",
+              "format": "date"
+            },
+            "devices": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Device"
+              }
+            }
+          }
+        }
+      }
+    },
+    "VPNAccessRequestResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "task_gid": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "UserTasksResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "asana_id": {
+                "type": "string"
+              },
+              "template_task_id": {
+                "type": "integer"
+              },
+              "template_task_name": {
+                "type": "string"
+              },
+              "user_uid": {
+                "type": "integer"
+              },
+              "projects": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "asana_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "AchievementLocalization": {
+      "required": [
+        "ru",
+        "en"
+      ],
+      "type": "object",
+      "properties": {
+        "ru": {
+          "type": "string"
+        },
+        "en": {
+          "type": "string"
+        }
+      }
+    },
+    "EmployeeAchievement": {
+      "required": [
+        "slug",
+        "image",
+        "name",
+        "description",
+        "hidden",
+        "received",
+        "received_date",
+        "received_percent"
+      ],
+      "type": "object",
+      "properties": {
+        "slug": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/definitions/AchievementLocalization"
+        },
+        "description": {
+          "$ref": "#/definitions/AchievementLocalization"
+        },
+        "hidden": {
+          "type": "boolean"
+        },
+        "received": {
+          "type": "boolean"
+        },
+        "received_date": {
+          "type": "string"
+        },
+        "received_percent": {
+          "type": "number"
+        }
+      }
+    },
+    "EmployeeAchievementsResponse": {
+      "required": [
+        "result"
+      ],
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EmployeeAchievement"
+          }
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "UserResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "ChangePasswordRequest": {
+      "required": [
+        "login",
+        "new_password",
+        "new_password_confirm"
+      ],
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string"
+        },
+        "new_password": {
+          "type": "string"
+        },
+        "new_password_confirm": {
+          "type": "string"
+        }
+      }
+    },
+    "ChangePasswordResponse": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "OK",
+            "error"
+          ]
+        },
+        "error_type": {
+          "type": "string"
+        },
+        "error_msg": {
+          "type": "string"
+        }
+      }
+    },
+    "GenerateCertResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "msg": {
+          "type": "string"
+        }
+      }
+    },
+    "EdoGetEmployeeResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "unique_id": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            },
+            "patronymic_name": {
+              "type": "string"
+            },
+            "participant_status": {
+              "type": "string",
+              "enum": [
+                "participant",
+                "can_participate",
+                "can_not_participate"
+              ]
+            },
+            "start_date": {
+              "type": "string",
+              "format": "customdate"
+            },
+            "end_date": {
+              "type": "string",
+              "format": "customdate"
+            },
+            "legal_entity": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            },
+            "studio": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            },
+            "manager": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "patronymic_name": {
+                  "type": "string"
+                }
+              }
+            },
+            "deleted": {
+              "type": "boolean"
+            }
+          }
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "RedirectUriParam": {
+      "in": "query",
+      "name": "redirect_uri",
+      "type": "string"
+    },
+    "AttachmentParam": {
+      "in": "formData",
+      "name": "attachment",
+      "type": "file",
+      "x-nullable": true
+    },
+    "StartOnParam": {
+      "in": "formData",
+      "name": "start_on",
+      "type": "string",
+      "format": "customdate"
+    },
+    "SetStatusDueOnParam": {
+      "in": "formData",
+      "name": "set_status_due_on",
+      "type": "string",
+      "format": "customdate"
+    },
+    "DueOnParam": {
+      "in": "formData",
+      "name": "due_on",
+      "type": "string",
+      "format": "customdate"
+    },
+    "BeginDateParam": {
+      "in": "formData",
+      "name": "begin_date",
+      "type": "string",
+      "format": "customdate"
+    },
+    "EndDateParam": {
+      "in": "formData",
+      "name": "end_date",
+      "type": "string",
+      "format": "customdate"
+    },
+    "DueOnRequiredParam": {
+      "in": "formData",
+      "name": "due_on",
+      "type": "string",
+      "format": "customdate",
+      "required": true
+    },
+    "WorkOutParam": {
+      "in": "formData",
+      "name": "work_out",
+      "type": "string"
+    },
+    "CompensationTypeParam": {
+      "in": "formData",
+      "name": "type",
+      "type": "string",
+      "required": true
+    },
+    "HigherLimitParam": {
+      "in": "formData",
+      "name": "higher_limit",
+      "type": "boolean"
+    },
+    "AbsenceTypeParam": {
+      "in": "formData",
+      "name": "absence_type",
+      "type": "string",
+      "required": true,
+      "enum": [
+        "absence",
+        "sick_leave",
+        "sick_leave_wo_sick_list",
+        "health_recovery_days",
+        "vacation",
+        "vacation_without_pay",
+        "vacation_with_salary_payment_ua",
+        "extra_vacation_ua",
+        "extra_vacation_with_salary_payment_ua"
+      ]
+    },
+    "CustomerServiceTypeParam": {
+      "in": "formData",
+      "name": "task_type",
+      "type": "string",
+      "required": true,
+      "enum": [
+        "incident",
+        "repository_issue",
+        "access_request",
+        "get_equipment",
+        "med_insurance",
+        "business_trip",
+        "visit_office",
+        "relocation",
+        "purchase_literature",
+        "consultation",
+        "purchase_request",
+        "idea",
+        "other",
+        "workplace_preparing",
+        "course_request",
+        "repair",
+        "application_for_purchase_on_account",
+        "purchase_requisition_to_specification",
+        "webinar_organization",
+        "q_a_organization",
+        "remote_work",
+        "one_c_db_access",
+        "one_c_incident",
+        "one_c_improvement_task",
+        "one_c_external_user_access",
+        "one_c_idea",
+        "loan",
+        "workplace_change",
+        "it_support_request"
+      ]
+    },
+    "ProgrammingProject": {
+      "in": "formData",
+      "name": "programming_project",
+      "type": "string",
+      "description": "проект Асаны в котором будет создана заявка о проблемах в репозитариях игровых проектов"
+    },
+    "DocumentGenerateTypeParam": {
+      "in": "formData",
+      "name": "document_type",
+      "type": "string",
+      "required": true,
+      "enum": [
+        "vacation",
+        "vacation_without_pay",
+        "vacation_with_salary_payment_ua",
+        "extra_vacation_ua",
+        "extra_vacation_with_salary_payment_ua",
+        "additional_vacation"
+      ]
+    },
+    "OwnTaskParam": {
+      "in": "formData",
+      "name": "own_task",
+      "type": "boolean",
+      "default": true
+    },
+    "EmployeeNameParam": {
+      "in": "formData",
+      "name": "employee_name",
+      "type": "string"
+    },
+    "EmployeeEmailParam": {
+      "in": "formData",
+      "name": "employee_email",
+      "type": "string"
+    },
+    "EmployeeADloginParam": {
+      "in": "formData",
+      "name": "ad_login",
+      "type": "string"
+    },
+    "EmployeeCityParam": {
+      "in": "formData",
+      "name": "employee_city",
+      "type": "string"
+    },
+    "EmployeeOrganizationParam": {
+      "in": "formData",
+      "name": "employee_organization",
+      "type": "string"
+    },
+    "EmployeeDepartmentParam": {
+      "in": "formData",
+      "name": "employee_department",
+      "type": "string"
+    },
+    "EmployeeProjectParam": {
+      "in": "formData",
+      "name": "employee_project",
+      "type": "string"
+    },
+    "EmployeeAddManagerParam": {
+      "in": "formData",
+      "name": "add_manager",
+      "type": "boolean",
+      "default": false
+    },
+    "EmployeeManagerNameParam": {
+      "in": "formData",
+      "name": "employee_manager_name",
+      "type": "string"
+    },
+    "EmployeeManagerEmailParam": {
+      "in": "formData",
+      "name": "employee_manager_email",
+      "type": "string"
+    },
+    "UserTaskNameParam": {
+      "in": "formData",
+      "name": "user_task_name",
+      "type": "string"
+    },
+    "UserTextParam": {
+      "in": "formData",
+      "name": "user_text",
+      "type": "string"
+    },
+    "GidOfOrganizationParam": {
+      "in": "formData",
+      "name": "gid_of_employee_organization",
+      "type": "string"
+    },
+    "GidOfStudioParam": {
+      "in": "formData",
+      "name": "gid_of_studio",
+      "type": "string"
+    },
+    "EventsDateParam": {
+      "in": "formData",
+      "name": "events_date",
+      "type": "string",
+      "format": "customdate"
+    },
+    "DestinationCountryParam": {
+      "in": "formData",
+      "name": "destination_country",
+      "type": "string"
+    },
+    "DestinationCityParam": {
+      "in": "formData",
+      "name": "destination_city",
+      "type": "string"
+    },
+    "DepartureCountryParam": {
+      "in": "formData",
+      "name": "departure_country",
+      "type": "string"
+    },
+    "DepartureCityParam": {
+      "in": "formData",
+      "name": "departure_city",
+      "type": "string"
+    },
+    "NecessaryEquipment": {
+      "in": "formData",
+      "name": "necessary_equipment",
+      "type": "string"
+    },
+    "EquipmentDeliverAddress": {
+      "in": "formData",
+      "name": "equipment_deliver_address",
+      "type": "string"
+    },
+    "IsTemporary": {
+      "in": "formData",
+      "name": "is_temporary",
+      "type": "boolean"
+    },
+    "DurationWork": {
+      "in": "formData",
+      "name": "duration_work",
+      "type": "string"
+    },
+    "MoreInfoParam": {
+      "in": "formData",
+      "name": "more_info",
+      "type": "string"
+    },
+    "DemandParam": {
+      "in": "formData",
+      "name": "demand",
+      "type": "string"
+    },
+    "TargetParam": {
+      "in": "formData",
+      "name": "target",
+      "type": "string"
+    },
+    "VariantParam": {
+      "in": "formData",
+      "name": "variant",
+      "type": "string"
+    },
+    "IdeaDescriptionParam": {
+      "in": "formData",
+      "name": "idea_description",
+      "type": "string"
+    },
+    "ResultParam": {
+      "in": "formData",
+      "name": "result",
+      "type": "string"
+    },
+    "ImplementationMethodParam": {
+      "in": "formData",
+      "name": "implementation_method",
+      "type": "string"
+    },
+    "BeneficiaryParam": {
+      "in": "formData",
+      "name": "beneficiary",
+      "type": "string"
+    },
+    "ExampleParam": {
+      "in": "formData",
+      "name": "example",
+      "type": "string"
+    },
+    "WorkFormatParam": {
+      "in": "formData",
+      "name": "work_format",
+      "type": "string"
+    },
+    "PriorityParam": {
+      "in": "formData",
+      "name": "priority",
+      "type": "string"
+    },
+    "PurchaseCityParam": {
+      "in": "formData",
+      "name": "purchase_city",
+      "type": "string"
+    },
+    "PurchaseDateParam": {
+      "in": "formData",
+      "name": "purchase_date",
+      "type": "string",
+      "format": "customdate"
+    },
+    "SubscriptionCountryParam": {
+      "in": "formData",
+      "name": "subscription_country",
+      "type": "string"
+    },
+    "CostParam": {
+      "in": "formData",
+      "name": "cost",
+      "type": "string"
+    },
+    "ContactPhoneParam": {
+      "in": "formData",
+      "name": "contact_phone",
+      "type": "string"
+    },
+    "Currency": {
+      "in": "formData",
+      "name": "currency",
+      "type": "string"
+    },
+    "MeChildren": {
+      "in": "formData",
+      "name": "children",
+      "type": "string"
+    },
+    "PassportFirstNameParam": {
+      "in": "formData",
+      "name": "passport_first_name",
+      "type": "string",
+      "x-nullable": true
+    },
+    "PassportLastNameParam": {
+      "in": "formData",
+      "name": "passport_last_name",
+      "type": "string",
+      "x-nullable": true
+    },
+    "PassportPatronymicNameParam": {
+      "in": "formData",
+      "name": "passport_patronymic_name",
+      "type": "string",
+      "x-nullable": true
+    },
+    "ItnParam": {
+      "in": "formData",
+      "name": "itn",
+      "type": "string",
+      "x-nullable": true
+    },
+    "PassportTypeParam": {
+      "in": "formData",
+      "name": "passport_type",
+      "type": "string",
+      "x-nullable": true
+    },
+    "PassportIDParam": {
+      "in": "formData",
+      "name": "passport_id",
+      "type": "string",
+      "x-nullable": true
+    },
+    "PassportSeriesParam": {
+      "in": "formData",
+      "name": "passport_series",
+      "type": "string",
+      "x-nullable": true
+    },
+    "PassportDateParam": {
+      "in": "formData",
+      "name": "passport_date",
+      "type": "string",
+      "x-nullable": true,
+      "format": "date"
+    },
+    "PassportIssuedByParam": {
+      "in": "formData",
+      "name": "passport_issued_by",
+      "type": "string",
+      "x-nullable": true
+    },
+    "RegistrationAddressParam": {
+      "in": "formData",
+      "name": "registration_address",
+      "type": "string",
+      "x-nullable": true
+    },
+    "PassportDivisionCodeParam": {
+      "in": "formData",
+      "name": "passport_division_code",
+      "type": "string",
+      "x-nullable": true
+    },
+    "CommentParam": {
+      "in": "formData",
+      "name": "comment",
+      "type": "string"
+    },
+    "DeviceName": {
+      "in": "formData",
+      "name": "device_name",
+      "type": "string"
+    },
+    "SerialNumber": {
+      "in": "formData",
+      "name": "serial_number",
+      "type": "string"
+    },
+    "InventoryNumber": {
+      "in": "formData",
+      "name": "inventory_number",
+      "type": "string"
+    },
+    "EntityParam": {
+      "in": "formData",
+      "name": "entity",
+      "type": "string"
+    },
+    "OfficeParam": {
+      "in": "formData",
+      "name": "office",
+      "type": "string"
+    },
+    "ContractNumberParam": {
+      "in": "formData",
+      "name": "contract_number",
+      "type": "string"
+    },
+    "ContractDateParam": {
+      "in": "formData",
+      "name": "contract_date",
+      "type": "string",
+      "format": "customdate"
+    },
+    "AmountParam": {
+      "in": "formData",
+      "name": "amount",
+      "type": "string"
+    },
+    "PaymentOrderParam": {
+      "in": "formData",
+      "name": "payment_order",
+      "type": "string"
+    },
+    "ContractSubjectParam": {
+      "in": "formData",
+      "name": "contract_subject",
+      "type": "string"
+    },
+    "ContractFormatParam": {
+      "in": "formData",
+      "name": "contract_format",
+      "type": "string"
+    },
+    "DeliveryOrderParam": {
+      "in": "formData",
+      "name": "delivery_order",
+      "type": "string"
+    },
+    "LegalEntityIdFormParam": {
+      "in": "formData",
+      "name": "legal_entity_id",
+      "type": "integer"
+    },
+    "StudioIdFormParam": {
+      "in": "formData",
+      "name": "studio_id",
+      "type": "integer"
+    },
+    "EdoRedirectUriParam": {
+      "in": "query",
+      "name": "redirect_uri",
+      "type": "string",
+      "required": true
+    },
+    "EdoDueOnParam": {
+      "in": "query",
+      "name": "due_on",
+      "type": "integer"
+    },
+    "EdoNameParam": {
+      "in": "query",
+      "name": "name",
+      "type": "string"
+    },
+    "EdoDeletedParam": {
+      "in": "query",
+      "name": "deleted",
+      "type": "boolean",
+      "x-nullable": true
+    },
+    "EdoDocumentStatusParam": {
+      "in": "query",
+      "name": "status",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "EdoDocumentTypeIdParam": {
+      "in": "query",
+      "name": "type_id",
+      "type": "number"
+    },
+    "EdoSignatoryStatusParam": {
+      "in": "query",
+      "name": "signatory_status",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "EdoSignatoryStatusNotParam": {
+      "in": "query",
+      "name": "signatory_status_not",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "RecommendationIdParam": {
+      "in": "path",
+      "name": "recommendation_id",
+      "type": "integer",
+      "required": true
+    },
+    "EdoDocumentUuidParam": {
+      "in": "path",
+      "name": "document_uuid",
+      "type": "string",
+      "required": true
+    },
+    "StudioIdQueryParam": {
+      "in": "query",
+      "name": "studio_id",
+      "type": "integer",
+      "x-nullable": true
+    },
+    "PageParam": {
+      "in": "query",
+      "name": "page",
+      "type": "integer",
+      "x-nullable": true,
+      "minimum": 1
+    },
+    "PerPageParam": {
+      "in": "query",
+      "name": "per_page",
+      "type": "integer",
+      "x-nullable": true,
+      "minimum": 1
+    },
+    "OrderingParam": {
+      "in": "query",
+      "name": "ordering",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "x-nullable": true
+    },
+    "StartDateTimeQueryParam": {
+      "in": "query",
+      "name": "start_date",
+      "type": "string",
+      "format": "customdatetime",
+      "required": false
+    },
+    "EndDateTimeQueryParam": {
+      "in": "query",
+      "name": "end_date",
+      "type": "string",
+      "format": "customdatetime",
+      "required": false
+    },
+    "HrUidQueryParam": {
+      "in": "query",
+      "name": "hr_uid",
+      "type": "integer",
+      "required": true
+    },
+    "ReferrerFioParam": {
+      "in": "formData",
+      "name": "referrer_fio",
+      "type": "string",
+      "required": true
+    },
+    "PositionParam": {
+      "in": "formData",
+      "name": "position",
+      "type": "string",
+      "maxLength": 2000,
+      "required": true
+    },
+    "FioParam": {
+      "in": "formData",
+      "name": "fio",
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "AboutParam": {
+      "in": "formData",
+      "name": "about",
+      "type": "string",
+      "required": true,
+      "maxLength": 4000
+    },
+    "LinkToResumeParam": {
+      "in": "formData",
+      "name": "link_to_resume",
+      "type": "string",
+      "x-nullable": true,
+      "maxLength": 1500
+    },
+    "CanReferParam": {
+      "in": "formData",
+      "name": "can_refer",
+      "type": "boolean"
+    },
+    "CityParam": {
+      "in": "formData",
+      "name": "city",
+      "type": "string",
+      "maxLength": 255
+    },
+    "ContactsParam": {
+      "in": "formData",
+      "name": "contacts",
+      "type": "string",
+      "maxLength": 2000
+    },
+    "CreateDateParam": {
+      "in": "formData",
+      "name": "create_date",
+      "type": "string",
+      "format": "date"
+    },
+    "WhereFindParam": {
+      "in": "formData",
+      "name": "where_find",
+      "type": "string"
+    },
+    "RecommendationTypeParam": {
+      "in": "formData",
+      "name": "recommendation_type",
+      "type": "string",
+      "enum": [
+        "internal",
+        "external",
+        "manager"
+      ]
+    },
+    "JobSearchParam": {
+      "in": "formData",
+      "name": "job_search",
+      "type": "string",
+      "required": true,
+      "enum": [
+        "yes",
+        "no",
+        "unknown"
+      ]
+    },
+    "HrUidParam": {
+      "in": "formData",
+      "name": "hr_uid",
+      "type": "integer",
+      "required": true
+    },
+    "ManagerHrUidParam": {
+      "in": "formData",
+      "name": "manager_hr_uid",
+      "type": "integer"
+    },
+    "ManagerEmailParam": {
+      "in": "formData",
+      "name": "manager_email",
+      "type": "string"
+    },
+    "ManagerFioParam": {
+      "in": "formData",
+      "name": "manager_fio",
+      "type": "string"
+    },
+    "Topic": {
+      "in": "formData",
+      "name": "topic",
+      "type": "string"
+    },
+    "Date": {
+      "in": "formData",
+      "name": "date",
+      "type": "string"
+    },
+    "Time": {
+      "in": "formData",
+      "name": "time",
+      "type": "string"
+    },
+    "UsefulFor": {
+      "in": "formData",
+      "name": "useful_for",
+      "type": "string"
+    },
+    "DurationInteger": {
+      "in": "formData",
+      "name": "duration",
+      "type": "integer",
+      "minimum": 1
+    },
+    "DurationText": {
+      "in": "formData",
+      "name": "duration",
+      "type": "string"
+    },
+    "TechInfo": {
+      "in": "formData",
+      "name": "tech_info",
+      "type": "string"
+    },
+    "FollowersParam": {
+      "in": "formData",
+      "name": "followers",
+      "type": "string"
+    },
+    "StartDateQueryParam": {
+      "in": "query",
+      "name": "start_date",
+      "type": "string",
+      "format": "customdate",
+      "required": true
+    },
+    "EndDateQueryParam": {
+      "in": "query",
+      "name": "end_date",
+      "type": "string",
+      "format": "customdate",
+      "required": true
+    },
+    "PageQueryParam": {
+      "in": "query",
+      "name": "page",
+      "type": "string",
+      "format": "integer",
+      "required": false
+    },
+    "OrderingQueryParam": {
+      "in": "query",
+      "name": "ordering",
+      "type": "string",
+      "required": false
+    },
+    "ForEdoParam": {
+      "in": "formData",
+      "name": "for_edo",
+      "type": "boolean",
+      "default": false
+    },
+    "EdoTextParam": {
+      "description": "текстовой парметр, который отправлется если документ будет подписано по ЭДО",
+      "in": "formData",
+      "name": "edo_text",
+      "type": "string"
+    },
+    "IsNewParam": {
+      "in": "formData",
+      "name": "is_new",
+      "type": "boolean",
+      "default": false
+    },
+    "AbsenceIdParam": {
+      "in": "formData",
+      "name": "absence_id",
+      "type": "integer"
+    },
+    "LocationParam": {
+      "in": "formData",
+      "name": "location",
+      "type": "string",
+      "required": true
+    },
+    "ConsentOnPersonalDataReceivedParam": {
+      "in": "formData",
+      "name": "consent_on_personal_data_processing_received",
+      "type": "boolean"
+    },
+    "ConsentOnPersonalDataReceivedConfirmParam": {
+      "in": "formData",
+      "name": "consent_on_personal_data_processing_received_confirm",
+      "type": "boolean"
+    },
+    "ConsentWithRecommendationConditionsParam": {
+      "in": "formData",
+      "name": "consent_with_recommendation_conditions",
+      "type": "boolean"
+    },
+    "InfluencedCandidateDecisionParam": {
+      "in": "formData",
+      "name": "influenced_candidate_decision",
+      "type": "boolean"
+    },
+    "FoundLinkedinParam": {
+      "in": "formData",
+      "name": "found_linkedin",
+      "type": "boolean",
+      "x-nullable": true
+    },
+    "PlaceParam": {
+      "in": "formData",
+      "name": "place",
+      "type": "string"
+    },
+    "SpeakersParam": {
+      "in": "formData",
+      "name": "speakers",
+      "type": "string"
+    },
+    "EmployeePositionParam": {
+      "in": "formData",
+      "name": "employee_position",
+      "type": "string"
+    },
+    "WhatNowTextParam": {
+      "in": "formData",
+      "name": "whats_now_text",
+      "type": "string"
+    },
+    "ExpectedResultTextParam": {
+      "in": "formData",
+      "name": "expected_result_text",
+      "type": "string"
+    },
+    "UrgencyTextParam": {
+      "in": "formData",
+      "name": "urgency_text",
+      "type": "string"
+    },
+    "PurposeParam": {
+      "in": "formData",
+      "name": "purpose",
+      "type": "string"
+    },
+    "PeriodParam": {
+      "in": "formData",
+      "name": "period",
+      "type": "string"
+    },
+    "RepaymentOptionParam": {
+      "in": "formData",
+      "name": "repayment_option",
+      "type": "string"
+    },
+    "ReasonForChangeTextParam": {
+      "in": "formData",
+      "name": "reason_for_change",
+      "type": "string"
+    },
+    "PreferredWorkplaceTextParam": {
+      "in": "formData",
+      "name": "preferred_workplace",
+      "type": "string"
+    },
+    "AdditionalInformationTextParam": {
+      "in": "formData",
+      "name": "additional_information",
+      "type": "string"
+    },
+    "DeliveryPeriodParam": {
+      "in": "formData",
+      "name": "delivery_period",
+      "type": "string"
+    },
+    "DestinationParam": {
+      "in": "formData",
+      "name": "destination",
+      "type": "string"
+    },
+    "ContractorContactsParam": {
+      "in": "formData",
+      "name": "contractor_contacts",
+      "type": "string"
+    },
+    "OfficeGidParam": {
+      "in": "formData",
+      "name": "office_gid",
+      "type": "string"
+    },
+    "OfficeLabelParam": {
+      "in": "formData",
+      "name": "office_label",
+      "type": "string"
+    },
+    "OfficeIdParam": {
+      "in": "formData",
+      "name": "office_id",
+      "type": "integer"
+    },
+    "WorkFormatIdParam": {
+      "in": "formData",
+      "name": "work_format_id",
+      "type": "string"
+    },
+    "ContractLinkParam": {
+      "in": "formData",
+      "name": "contract_link",
+      "type": "string"
+    },
+    "ContractSumParam": {
+      "in": "formData",
+      "name": "contract_sum",
+      "type": "string"
+    },
+    "DeliveryOrderCustom": {
+      "in": "formData",
+      "name": "delivery_order_custom",
+      "type": "string"
+    },
+    "SpecificationDate": {
+      "in": "formData",
+      "name": "specification_date",
+      "type": "string",
+      "format": "date"
+    },
+    "SpecificationNumber": {
+      "in": "formData",
+      "name": "specification_number",
+      "type": "string"
+    },
+    "ContractAsanaLink": {
+      "in": "formData",
+      "name": "contract_asana_link",
+      "type": "string"
+    },
+    "DemandDate": {
+      "in": "formData",
+      "name": "demand_date",
+      "type": "string",
+      "format": "customdate"
+    },
+    "WaitFeedbackParam": {
+      "in": "formData",
+      "name": "wait_feedback",
+      "type": "boolean"
+    },
+    "GDFServiceGidParam": {
+      "in": "formData",
+      "name": "gdf_service",
+      "type": "string"
+    },
+    "ReturnDateParam": {
+      "in": "formData",
+      "name": "return_date",
+      "type": "string"
+    },
+    "OneCDBListParam": {
+      "in": "formData",
+      "name": "db_list",
+      "type": "string"
+    },
+    "PriorityLanguageParam": {
+      "in": "formData",
+      "name": "priority_lang",
+      "type": "string"
+    },
+    "ResponsibleParam": {
+      "in": "formData",
+      "name": "responsible_employee_email",
+      "type": "string"
+    },
+    "RDPTerminalParam": {
+      "in": "formData",
+      "name": "terminal_rdp",
+      "type": "string"
+    },
+    "ExternalUserNameParam": {
+      "in": "formData",
+      "name": "external_user_name",
+      "type": "string"
+    },
+    "ExternalUserEmailParam": {
+      "in": "formData",
+      "name": "external_user_email",
+      "type": "string"
+    },
+    "ExternalUserADLoginParam": {
+      "in": "formData",
+      "name": "external_user_ad_account",
+      "type": "string"
+    },
+    "ExternalUserOrganizationParam": {
+      "in": "formData",
+      "name": "external_user_organization",
+      "type": "string"
+    },
+    "OneCTaskTypeGIDParam": {
+      "in": "formData",
+      "name": "one_c_task_type_asana_custom_field_id",
+      "type": "string"
+    },
+    "DocumentNumberParam": {
+      "in": "formData",
+      "name": "document_number",
+      "type": "string",
+      "required": true
+    },
+    "ConfirmedParam": {
+      "in": "formData",
+      "name": "confirmed",
+      "type": "boolean",
+      "required": true
+    },
+    "EmployeeUidPathParam": {
+      "in": "path",
+      "name": "employee_uid",
+      "type": "string",
+      "required": true
+    },
+    "DepartmentID": {
+      "in": "formData",
+      "name": "department_id",
+      "type": "integer",
+      "x-nullable": true
+    },
+    "CaptchaQueryParam": {
+      "in": "query",
+      "name": "captcha",
+      "type": "string",
+      "required": true
+    },
+    "EdoEmployeeIdPathParam": {
+      "in": "path",
+      "name": "employee_id",
+      "type": "integer",
+      "required": true
+    },
+    "AvatarKeyQueryParam": {
+      "in": "query",
+      "name": "avatar_key",
+      "type": "string",
+      "enum": [
+        "avatar",
+        "avatar_192",
+        "avatar_512"
+      ]
+    },
+    "EmployeeIdPathParam": {
+      "in": "path",
+      "name": "employee_id",
+      "type": "integer",
+      "required": true
+    }
+  }
+}
